@@ -19,13 +19,13 @@ import org.apache.logging.log4j.Logger;
  * @since TF Spell Pack 1.0
  */
 @Mod(modid = TFSpellPack.MODID, name = TFSpellPack.NAME, version = TFSpellPack.VERSION, acceptedMinecraftVersions = "[1.12.2]",
-		dependencies = "required-after:forge@[14.23.5.2814,);required-after:ebwizardry@[4.2.9,4.3);required-after:twilightforest@[3.10.1013,)")
+		dependencies = "required-after:forge@[14.23.5.2814,);required-after:ebwizardry@[4.3.1);required-after:twilightforest@[3.10.1013,)")
 
 public class TFSpellPack {
 
     public static final String MODID = "tfspellpack";
     public static final String NAME = "Electroblob's Wizardry: Twilight Forest Spell Pack";
-    public static final String VERSION = "1.0.2";
+    public static final String VERSION = "1.0.3";
 
     public static Logger logger;
 
