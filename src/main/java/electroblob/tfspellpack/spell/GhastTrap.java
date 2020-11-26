@@ -1,5 +1,7 @@
 package electroblob.tfspellpack.spell;
 
+import javax.annotation.Nullable;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.entity.living.EntityMiniGhastMinion;
 import electroblob.tfspellpack.registry.TFSPItems;
@@ -7,8 +9,9 @@ import electroblob.tfspellpack.util.TFSPUtils;
 import electroblob.wizardry.registry.WizardryItems;
 import electroblob.wizardry.spell.SpellMinion;
 import electroblob.wizardry.spell.SpellRay;
+import electroblob.wizardry.util.BlockUtils;
+import electroblob.wizardry.util.EntityUtils;
 import electroblob.wizardry.util.SpellModifiers;
-import electroblob.wizardry.util.WizardryUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,8 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class GhastTrap extends SpellRay {
 
 	public static final String MINION_LIFETIME = "minion_lifetime";
@@ -30,7 +31,7 @@ public class GhastTrap extends SpellRay {
 	public static final String SUMMON_RADIUS = "summon_radius";
 
 	public GhastTrap(){
-		super(TFSpellPack.MODID, "ghast_trap", false, EnumAction.NONE);
+		super(TFSpellPack.MODID, "ghast_trap", EnumAction.NONE, false);
 		this.npcSelector(TFSPUtils.IN_TF_DIMENSION);
 		this.ignoreLivingEntities(true);
 		addProperties(MINION_LIFETIME, MINION_COUNT, SUMMON_RADIUS);
@@ -61,7 +62,7 @@ public class GhastTrap extends SpellRay {
 					int range = getProperty(SUMMON_RADIUS).intValue();
 
 					// Try and find a nearby floor space
-					BlockPos pos1 = WizardryUtilities.findNearbyFloorSpace(world, pos, range, range*2);
+					BlockPos pos1 = BlockUtils.findNearbyFloorSpace(world, pos, range, range*2);
 
 					if(pos1 != null){
 						// Make sure the flying entity spawns above the ground
@@ -82,7 +83,7 @@ public class GhastTrap extends SpellRay {
 					// This is only used for artefacts, but it's a nice example of custom spell modifiers
 					minion.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(
 							new AttributeModifier(SpellMinion.HEALTH_MODIFIER, modifiers.get(SpellMinion.HEALTH_MODIFIER) - 1,
-									WizardryUtilities.Operations.MULTIPLY_CUMULATIVE));
+									EntityUtils.Operations.MULTIPLY_CUMULATIVE));
 					minion.setHealth(minion.getMaxHealth()); // Need to set this because we may have just modified the value
 
 					world.spawnEntity(minion);
@@ -91,12 +92,12 @@ public class GhastTrap extends SpellRay {
 				// Temporarily disable the fire tick gamerule if player block damage is disabled
 				// Bit of a hack but it works fine!
 				boolean doFireTick = world.getGameRules().getBoolean("doFireTick");
-				if(doFireTick && !WizardryUtilities.canDamageBlocks(caster, world)) world.getGameRules().setOrCreateGameRule("doFireTick", "false");
+				if(doFireTick && !EntityUtils.canDamageBlocks(caster, world)) world.getGameRules().setOrCreateGameRule("doFireTick", "false");
 				EntityLightningBolt entitylightning = new EntityLightningBolt(world, pos.getX(), pos.getY(),
 						pos.getZ(), false);
 				world.addWeatherEffect(entitylightning);
 				// Reset doFireTick to true if it was true before
-				if(doFireTick && !WizardryUtilities.canDamageBlocks(caster, world)) world.getGameRules().setOrCreateGameRule("doFireTick", "true");
+				if(doFireTick && !EntityUtils.canDamageBlocks(caster, world)) world.getGameRules().setOrCreateGameRule("doFireTick", "true");
 
 			}
 

@@ -1,10 +1,16 @@
 package electroblob.tfspellpack.client.renderer;
 
+import org.lwjgl.opengl.GL11;
+
 import electroblob.tfspellpack.registry.TFSPSpells;
-import electroblob.wizardry.util.WizardryUtilities;
+import electroblob.wizardry.util.EntityUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +25,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import org.lwjgl.opengl.GL11;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class RenderIceShield {
@@ -35,7 +40,7 @@ public class RenderIceShield {
 
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
-			if(WizardryUtilities.isCasting(player, TFSPSpells.chariot_of_ice)){
+			if(EntityUtils.isCasting(player, TFSPSpells.chariot_of_ice)){
 				int i = player.getBrightnessForRender();
 				int j = i % 65536;
 				int k = i / 65536;
@@ -51,7 +56,7 @@ public class RenderIceShield {
 
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(WizardryUtilities.isCasting(player, TFSPSpells.chariot_of_ice)){
+		if(EntityUtils.isCasting(player, TFSPSpells.chariot_of_ice)){
 
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();

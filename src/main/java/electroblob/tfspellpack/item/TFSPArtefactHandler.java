@@ -1,14 +1,16 @@
 package electroblob.tfspellpack.item;
 
+import java.util.Arrays;
+
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.tfspellpack.registry.TFSPPotions;
 import electroblob.wizardry.event.SpellCastEvent;
 import electroblob.wizardry.integration.DamageSafetyChecker;
 import electroblob.wizardry.item.ItemArtefact;
 import electroblob.wizardry.item.ItemWizardArmour;
+import electroblob.wizardry.util.InventoryUtils;
 import electroblob.wizardry.util.MagicDamage;
 import electroblob.wizardry.util.SpellModifiers;
-import electroblob.wizardry.util.WizardryUtilities;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -22,8 +24,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import twilightforest.TFConfig;
 import twilightforest.entity.EntityTFTomeBolt;
-
-import java.util.Arrays;
 
 @Mod.EventBusSubscriber
 public class TFSPArtefactHandler {
@@ -99,8 +99,8 @@ public class TFSPArtefactHandler {
 			for(ItemArtefact artefact : ItemArtefact.getActiveArtefacts(player)){
 
 				if(artefact == TFSPItems.amulet_steeleaf){
-
-					if(player.dimension == TFConfig.dimension.dimensionID && Arrays.stream(WizardryUtilities.ARMOUR_SLOTS)
+						
+					if(player.dimension == TFConfig.dimension.dimensionID && Arrays.stream(InventoryUtils.ARMOUR_SLOTS)
 							.map(s -> player.getItemStackFromSlot(s).getItem())
 							.allMatch(i -> i instanceof ItemWizardArmour)){
 						event.setAmount(event.getAmount() * 0.9f);

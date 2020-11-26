@@ -1,13 +1,16 @@
 package electroblob.tfspellpack.spell;
 
+import javax.annotation.Nullable;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.entity.construct.EntityFireJet;
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.tfspellpack.util.TFSPUtils;
 import electroblob.wizardry.registry.WizardryItems;
 import electroblob.wizardry.spell.SpellConstruct;
+import electroblob.wizardry.util.BlockUtils;
+import electroblob.wizardry.util.EntityUtils;
 import electroblob.wizardry.util.SpellModifiers;
-import electroblob.wizardry.util.WizardryUtilities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
@@ -16,8 +19,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class FireJets extends SpellConstruct<EntityFireJet> {
 
@@ -51,12 +52,12 @@ public class FireJets extends SpellConstruct<EntityFireJet> {
 
 			double px = x + radius * MathHelper.cos(angle) + world.rand.nextDouble() * 2 - 1;
 			double pz = z + radius * MathHelper.sin(angle) + world.rand.nextDouble() * 2 - 1;
-			Integer py = WizardryUtilities.getNearestFloor(world, new BlockPos(px, y, pz), (int)radius);
+			Integer py = BlockUtils.getNearestFloor(world, new BlockPos(px, y, pz), (int)radius);
 
 			if(py != null){
 				if(super.spawnConstruct(world, px, py, pz, side, caster, modifiers)){
 					success = true;
-					if(!world.isRemote && WizardryUtilities.canDamageBlocks(caster, world))
+					if(!world.isRemote && EntityUtils.canDamageBlocks(caster, world))
 						world.setBlockState(new BlockPos(px, py, pz), Blocks.FIRE.getDefaultState());
 				}
 			}

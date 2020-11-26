@@ -1,5 +1,7 @@
 package electroblob.tfspellpack.spell;
 
+import javax.annotation.Nullable;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.wizardry.spell.SpellRay;
@@ -19,12 +21,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import twilightforest.block.TFBlocks;
 
-import javax.annotation.Nullable;
-
 public class TwilightCatalyst extends SpellRay {
 
 	public TwilightCatalyst(){
-		super(TFSpellPack.MODID, "twilight_catalyst", false, EnumAction.NONE);
+		super(TFSpellPack.MODID, "twilight_catalyst", EnumAction.NONE, false);
 		this.hitLiquids(true);
 	}
 

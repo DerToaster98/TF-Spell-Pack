@@ -1,14 +1,22 @@
 package electroblob.tfspellpack.spell;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.tfspellpack.util.TFSPUtils;
 import electroblob.wizardry.item.ItemArtefact;
 import electroblob.wizardry.registry.WizardryItems;
 import electroblob.wizardry.spell.Spell;
-import electroblob.wizardry.util.*;
+import electroblob.wizardry.util.AllyDesignationSystem;
+import electroblob.wizardry.util.EntityUtils;
+import electroblob.wizardry.util.MagicDamage;
 import electroblob.wizardry.util.MagicDamage.DamageType;
+import electroblob.wizardry.util.ParticleBuilder;
 import electroblob.wizardry.util.ParticleBuilder.Type;
+import electroblob.wizardry.util.SpellModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,9 +34,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import twilightforest.TwilightForestMod;
 import twilightforest.client.particle.TFParticleType;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class CarminiteSingularity extends Spell {
 
@@ -94,7 +99,7 @@ public class CarminiteSingularity extends Spell {
 
 		double radius = getProperty(EFFECT_RADIUS).floatValue() * modifiers.get(WizardryItems.blast_upgrade);
 
-		List<EntityLivingBase> targets = WizardryUtilities.getEntitiesWithinRadius(radius, centre.x, centre.y, centre.z, world);
+		List<EntityLivingBase> targets = EntityUtils.getLivingWithinRadius(radius, centre.x, centre.y, centre.z, world);
 
 		for(EntityLivingBase target : targets){
 
@@ -116,7 +121,7 @@ public class CarminiteSingularity extends Spell {
 				if(distance < radius * DAMAGE_RADIUS_FRACTION && !MagicDamage.isEntityImmune(DamageType.SHOCK, target)
 						&& target.ticksExisted % target.maxHurtResistantTime == 1){
 
-					WizardryUtilities.attackEntityWithoutKnockback(target, MagicDamage.causeDirectMagicDamage(caster,
+					EntityUtils.attackEntityWithoutKnockback(target, MagicDamage.causeDirectMagicDamage(caster,
 							DamageType.SHOCK), getProperty(DAMAGE).floatValue() * modifiers.get(SpellModifiers.POTENCY));
 
 					if(world.isRemote){
@@ -129,7 +134,7 @@ public class CarminiteSingularity extends Spell {
 
 		// Projectile repulsion
 		if(caster instanceof EntityPlayer && ItemArtefact.isArtefactActive((EntityPlayer)caster, TFSPItems.amulet_carminite)){
-			List<Entity> projectiles = WizardryUtilities.getEntitiesWithinRadius(radius, centre.x, centre.y, centre.z, world, Entity.class);
+			List<Entity> projectiles = EntityUtils.getEntitiesWithinRadius(radius, centre.x, centre.y, centre.z, world, Entity.class);
 			for(Entity projectile : projectiles){
 				if(projectile instanceof IProjectile){
 					Vec3d vec = projectile.getPositionVector().subtract(centre).normalize().scale(0.2);

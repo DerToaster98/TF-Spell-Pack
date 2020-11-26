@@ -44,7 +44,7 @@ public class CallOfTheHorn extends SpellRay {
 	}
 
 	public CallOfTheHorn(){
-		super(TFSpellPack.MODID, "call_of_the_horn", true, EnumAction.BOW);
+		super(TFSpellPack.MODID, "call_of_the_horn", EnumAction.BOW, true);
 		this.ignoreLivingEntities(true);
 		this.hitLiquids(false);
 		this.soundValues(1, 0.8f, 0);

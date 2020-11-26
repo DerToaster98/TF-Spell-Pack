@@ -2,22 +2,35 @@ package electroblob.tfspellpack.spell;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.entity.living.EntityTwilightWraithMinion;
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.wizardry.Wizardry;
 import electroblob.wizardry.entity.living.EntityBlazeMinion;
 import electroblob.wizardry.spell.SpellRay;
+import electroblob.wizardry.util.EntityUtils;
 import electroblob.wizardry.util.NBTExtras;
 import electroblob.wizardry.util.ParticleBuilder;
 import electroblob.wizardry.util.ParticleBuilder.Type;
 import electroblob.wizardry.util.SpellModifiers;
-import electroblob.wizardry.util.WizardryUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityCaveSpider;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.entity.passive.EntityBat;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityParrot;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntityRabbit;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,8 +38,20 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import twilightforest.entity.*;
-import twilightforest.entity.passive.*;
+import twilightforest.entity.EntityTFHedgeSpider;
+import twilightforest.entity.EntityTFHostileWolf;
+import twilightforest.entity.EntityTFMinotaur;
+import twilightforest.entity.EntityTFRedcap;
+import twilightforest.entity.EntityTFSkeletonDruid;
+import twilightforest.entity.EntityTFSwarmSpider;
+import twilightforest.entity.EntityTFWraith;
+import twilightforest.entity.passive.EntityTFBighorn;
+import twilightforest.entity.passive.EntityTFBoar;
+import twilightforest.entity.passive.EntityTFBunny;
+import twilightforest.entity.passive.EntityTFDeer;
+import twilightforest.entity.passive.EntityTFPenguin;
+import twilightforest.entity.passive.EntityTFRaven;
+import twilightforest.entity.passive.EntityTFTinyBird;
 
 public class Transformation extends SpellRay {
 
@@ -63,7 +88,7 @@ public class Transformation extends SpellRay {
 	}
 
 	public Transformation(){
-		super(TFSpellPack.MODID, "transformation", false, EnumAction.NONE);
+		super(TFSpellPack.MODID, "transformation", EnumAction.NONE, false);
 		this.soundValues(0.5f, 1f, 0);
 	}
 
@@ -80,7 +105,7 @@ public class Transformation extends SpellRay {
 	@Override
 	protected boolean onEntityHit(World world, Entity target, Vec3d hit, EntityLivingBase caster, Vec3d origin, int ticksInUse, SpellModifiers modifiers){
 
-		if(WizardryUtilities.isLiving(target)){
+		if(EntityUtils.isLiving(target)){
 
 			double xPos = target.posX;
 			double yPos = target.posY;

@@ -1,5 +1,11 @@
 package electroblob.tfspellpack.entity.living;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import electroblob.tfspellpack.Settings;
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.registry.TFSPItems;
@@ -10,8 +16,8 @@ import electroblob.wizardry.constants.Tier;
 import electroblob.wizardry.entity.living.EntityEvilWizard;
 import electroblob.wizardry.registry.WizardryItems;
 import electroblob.wizardry.spell.Spell;
+import electroblob.wizardry.util.BlockUtils;
 import electroblob.wizardry.util.SpellProperties;
-import electroblob.wizardry.util.WizardryUtilities;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.entity.EntityList;
@@ -21,7 +27,11 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.DifficultyInstance;
@@ -33,12 +43,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import twilightforest.TFConfig;
 import twilightforest.block.BlockTFTrapDoor;
 import twilightforest.entity.EntityTFSkeletonDruid;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @Mod.EventBusSubscriber
 public class EntityDruidMage extends EntityEvilWizard {
@@ -242,10 +246,9 @@ public class EntityDruidMage extends EntityEvilWizard {
 							|| world.getBlockState(pos).getBlock() instanceof BlockTFTrapDoor){
 
 						if(world.rand.nextFloat() < Settings.druidMageSpawnChance){
-
 							// Only search downwards (but flip the surface criteria so we get floors, not ceilings!)
-							Integer floor = WizardryUtilities.getNearestSurface(world, pos, EnumFacing.DOWN, 16, false,
-									WizardryUtilities.SurfaceCriteria.COLLIDABLE.flip());
+							Integer floor = BlockUtils.getNearestSurface(world, pos, EnumFacing.DOWN, 16, false,
+									BlockUtils.SurfaceCriteria.COLLIDABLE.flip());
 
 							if(floor != null){
 								EntityDruidMage druidMage = new EntityDruidMage(world);

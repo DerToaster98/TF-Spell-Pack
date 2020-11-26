@@ -1,15 +1,17 @@
 package electroblob.tfspellpack.spell;
 
+import javax.annotation.Nullable;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.tfspellpack.util.TFSPParticles;
 import electroblob.tfspellpack.util.TFSPUtils;
 import electroblob.wizardry.registry.WizardrySounds;
 import electroblob.wizardry.spell.SpellRay;
+import electroblob.wizardry.util.EntityUtils;
 import electroblob.wizardry.util.MagicDamage;
 import electroblob.wizardry.util.ParticleBuilder;
 import electroblob.wizardry.util.SpellModifiers;
-import electroblob.wizardry.util.WizardryUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -30,12 +32,10 @@ import twilightforest.block.TFBlocks;
 import twilightforest.network.PacketAnnihilateBlock;
 import twilightforest.network.TFPacketHandler;
 
-import javax.annotation.Nullable;
-
 public class Annihilation extends SpellRay {
 
 	public Annihilation(){
-		super(TFSpellPack.MODID, "annihilation", false, EnumAction.NONE);
+		super(TFSpellPack.MODID, "annihilation", EnumAction.NONE, false);
 		addProperties(DAMAGE);
 		this.npcSelector(TFSPUtils.IN_TF_DIMENSION);
 	}
@@ -58,7 +58,7 @@ public class Annihilation extends SpellRay {
 	@Override
 	protected boolean onBlockHit(World world, BlockPos pos, EnumFacing side, Vec3d hit, @Nullable EntityLivingBase caster, Vec3d origin, int ticksInUse, SpellModifiers modifiers){
 
-		if(!WizardryUtilities.canDamageBlocks(caster, world)) return false;
+		if(!EntityUtils.canDamageBlocks(caster, world)) return false;
 
 		IBlockState state = world.getBlockState(pos);
 

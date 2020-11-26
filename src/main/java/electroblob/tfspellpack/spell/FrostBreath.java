@@ -1,14 +1,16 @@
 package electroblob.tfspellpack.spell;
 
+import javax.annotation.Nullable;
+
 import electroblob.tfspellpack.TFSpellPack;
 import electroblob.tfspellpack.registry.TFSPItems;
 import electroblob.tfspellpack.util.TFSPUtils;
 import electroblob.wizardry.registry.WizardryItems;
 import electroblob.wizardry.spell.SpellRay;
+import electroblob.wizardry.util.EntityUtils;
 import electroblob.wizardry.util.MagicDamage;
 import electroblob.wizardry.util.MagicDamage.DamageType;
 import electroblob.wizardry.util.SpellModifiers;
-import electroblob.wizardry.util.WizardryUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -26,12 +28,10 @@ import twilightforest.TwilightForestMod;
 import twilightforest.client.particle.TFParticleType;
 import twilightforest.potions.TFPotions;
 
-import javax.annotation.Nullable;
-
 public class FrostBreath extends SpellRay {
 
 	public FrostBreath(){
-		super(TFSpellPack.MODID, "frost_breath", true, EnumAction.NONE);
+		super(TFSpellPack.MODID, "frost_breath", EnumAction.NONE, true);
 		this.aimAssist(0.3f); // A bit of artistic license, makes it more unique from the regular frost ray
 		this.soundValues(0.5f, 0.5f, 0);
 		this.npcSelector(TFSPUtils.IN_TF_DIMENSION);
@@ -46,7 +46,7 @@ public class FrostBreath extends SpellRay {
 	@Override
 	protected boolean onEntityHit(World world, Entity target, Vec3d hit, @Nullable EntityLivingBase caster, Vec3d origin, int ticksInUse, SpellModifiers modifiers){
 
-		if(WizardryUtilities.isLiving(target)){
+		if(EntityUtils.isLiving(target)){
 
 			if(target.isBurning()) target.extinguish();
 
@@ -65,7 +65,7 @@ public class FrostBreath extends SpellRay {
 				float damage = getProperty(DAMAGE).floatValue() * modifiers.get(SpellModifiers.POTENCY);
 				if(target instanceof EntityBlaze || target instanceof EntityMagmaCube) damage *= 2;
 
-				WizardryUtilities.attackEntityWithoutKnockback(target, MagicDamage.causeDirectMagicDamage(caster,
+				EntityUtils.attackEntityWithoutKnockback(target, MagicDamage.causeDirectMagicDamage(caster,
 						DamageType.FROST), damage);
 
 			}
